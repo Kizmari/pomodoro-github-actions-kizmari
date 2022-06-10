@@ -24,6 +24,11 @@ public class Pomodoro {
         // кол-во подходов
         int count = 1;
 
+
+
+
+
+
         // длина рисунка progress bar
         int sizePrint = 30;
 
@@ -35,11 +40,22 @@ public class Pomodoro {
                     printHelpMsg();
                     isCallHelp = true;
                 }
+
                 case "-w" -> workMin = Integer.parseInt(cmd[++i]);
                 case "-b" -> breakMin = Integer.parseInt(cmd[++i]);
                 case "-count" -> count = Integer.parseInt(cmd[++i]);
                 case "-t" -> isTest = true;
             }
+
+            int countChoice = switch (count) {
+                case 1 -> workMin += 5;
+                case 2 -> workMin += 10;
+                case 3 -> workMin += 20;
+
+
+                default -> throw new IllegalStateException("Неизвестное количество подходов!" + count);
+            };
+
         }
 
         if (!isCallHelp) {
@@ -51,7 +67,9 @@ public class Pomodoro {
             }
             long endTime = System.currentTimeMillis();
             System.out.println("Pomodoro таймер истек: " + (endTime - startTime)/(1000 * 60) + " min");
+
         }
+
     }
 
     private static void timer(int workTime, int breakTime, int sizeProgressBar) throws InterruptedException {
